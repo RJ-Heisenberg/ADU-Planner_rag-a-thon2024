@@ -20,6 +20,17 @@ class Conversation:
         self._messages = _find_messages(id)
         self._message_subscribers = []
 
+    @property
+    def id(self):
+        return self._id
+
+    @property
+    def messages(self):
+        return self._messages
+
+    def send(self, sender: str, body: str) -> None:
+        self.append(Message(sender, body))
+
     def append(self, msg: Message) -> None:
         self._messages.append(msg)
 
