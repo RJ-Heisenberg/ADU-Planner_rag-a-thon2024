@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebSocket Chat</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    #messageInput {
+      width: 70%;
+      padding: 8px;
+      margin-right: 10px;
+    }
+    #sendMessageBtn {
+      padding: 8px;
+      cursor: pointer;
+    }
+    #messageDisplay {
+      margin-top: 20px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>WebSocket Chat</h1>
+  <div id="messageDisplay"></div>
+  <script type="text/javascript">
+    const module = {};
+  </script>
+  <div>
+    <input type="text" id="messageInput" placeholder="Type a message">
+    <button id="sendMessageBtn" onclick="module.sendMessage()">Send</button>
+  </div>
+  <script type="module">
+    const socket = new WebSocket("ws://localhost:9999/conversation/0");
+    let clientId;
+
+    socket.addEventListener('message', (event) => {
+      const message = JSON.parse(event.data);
+      module.displayMessage(`${message.sender}: ${message.body}`);
+    });
+
+    module.sendMessage = () => {
+      const messageInput = document.getElementById('messageInput');
+      const message = messageInput.value;
+      if (message.trim() !== '') {
+        socket.send(message);
+        messageInput.value = '';
+      }
+    };
+
+    module.displayMessage = (message) => {
+      const messageDisplay = document.getElementById('messageDisplay');
+      const messageElement = document.createElement('p');
+      messageElement.textContent = message;
+      messageDisplay.appendChild(messageElement);
+      messageDisplay.scrollTop = messageDisplay.scrollHeight;
+    }
+  </script>
+</body>
+</html>

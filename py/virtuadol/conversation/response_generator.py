@@ -2,6 +2,8 @@ from . import conversation as conversation_lib
 from . import cache as cache_lib
 from . import message
 
+import os
+
 from llama_index.chat_engine.types import BaseChatEngine
 from llama_index import memory as memory_lib
 
@@ -11,22 +13,19 @@ from typing import Optional
 
 ConversationId = conversation_lib.ConversationId
 Message = message.Message
+MessageSubscriber = message.MessageSubscriber
 
-CONTEXT_PROMPT = (
-    "You are a chatbot, able to have normal interactions using "
-    "these documents as the basis for your responses:\n"
-    "{context_str}"
-    "\nInstruction: Use the previous chat history, or the context above, to interact and help the user."
-)
+MOCK_RESPONSE = os.getenv('MOCK_RESPONSE', 'False') == 'True'
 
 
-class ResponseGenerator:
+class ResponseGenerator(MessageSubscriber):
     _conversation_id: ConversationId
     _name: str = "<system>"
     _chat_engine: Optional[BaseChatEngine] = None
 
     def __init__(self, conversation_id: ConversationId):
         self._conversation_id = conversation_id
+        self._backlog = []
 
     @property
     def chat_engine(self) -> BaseChatEngine:
@@ -36,16 +35,21 @@ class ResponseGenerator:
             self._chat_engine = Database.index.as_chat_engine(
                 chat_mode="condense_plus_context",
                 memory=memory,
-                context_prompt=CONTEXT_PROMPT,
                 verbose=True,
             )
         return self._chat_engine
 
-    def __call__(self, msg: Message) -> bool:
-        if msg.sender == self._name:
-            return True
+    def on_all_notified(self):
+        backlog, self._backlog = self._backlog, []
+        for msg in backlog:
+            conversation = cache_lib.get_cached(self._conversation_id)
+            if MOCK_RESPONSE:
+                conversation.send(self._name, msg)
+            else:
+                conversation.send(self._name, self.chat_engine.chat(msg))
 
-        conversation = cache_lib.get_cached(self._conversation_id)
-        conversation.append(Message(self._name, self.chat_engine.chat(msg.body)))
+    def on_message(self, sender, body) -> bool:
+        if self._name != sender:
+            self._backlog.append(body)
 
         return True
