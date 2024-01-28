@@ -9,8 +9,10 @@ $ export VECTOR_STORE_COLLECTION="embeddings"
 Install packages:
 ```
 $ npm install
-$ python3 -m pip install chromadb vecs datasets llama_index html2text
+$ python3 -m pip install llama_index
 ```
+
+One of these packages for database: `vecs`, `chromadb`, or `pymongo`.
 
 Run server:
 ```

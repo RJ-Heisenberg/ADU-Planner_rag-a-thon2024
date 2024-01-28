@@ -1,7 +1,5 @@
 from . import message
 
-from llama_index.vector_stores.types import VectorStore
-
 from typing import List
 
 

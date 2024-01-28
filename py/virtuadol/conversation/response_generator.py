@@ -15,7 +15,7 @@ ConversationId = conversation_lib.ConversationId
 Message = message.Message
 MessageSubscriber = message.MessageSubscriber
 
-MOCK_RESPONSE = os.getenv('MOCK_RESPONSE', 'False') == 'True'
+MOCK_RESPONSE = os.getenv("MOCK_RESPONSE", "False") == "True"
 
 
 class ResponseGenerator(MessageSubscriber):
