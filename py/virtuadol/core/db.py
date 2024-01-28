@@ -6,6 +6,11 @@ from llama_index.vector_stores.types import VectorStore
 
 from typing import Optional
 
+try:
+    import chromadb
+except ImportError:
+    chromadb = None
+
 
 _EMBEDDINGS_COLLECTION = os.getenv("VECTOR_STORE_COLLECTION", "embeddings")
 
@@ -42,6 +47,10 @@ class Database:
                     postgres_connection_string=connection_string,
                     collection_name=_EMBEDDINGS_COLLECTION,
                 )
+            elif connection_string.startswith("chromadb"):
+                chroma_client = chromadb.EphemeralClient()
+                chroma_collection = chroma_client.create_collection(_EMBEDDINGS_COLLECTION)
+                cls.__vector_store = vector_stores.ChromaVectorStore(chroma_collection=chroma_collection)
             else:
                 raise RuntimeError("Unrecognized vector store type!")
 
