@@ -72,7 +72,7 @@ app.get('/', (req, res) => {
     res.sendFile(join(__dirname, 'index.html'));
 });
 
-async function getConversation(conversation_id, num_retries=1) {
+async function getConversation(conversation_id, num_retries = 1) {
     if (num_retries < 0) {
         return null;
     }
@@ -87,11 +87,23 @@ async function getConversation(conversation_id, num_retries=1) {
     }
 }
 
+// respond with a list of conversation ids
+app.get('/conversation', async (_, res) => {
+    const conversation_objs = await conversation_lib.find_conversation_ids();
+    const conversatons = []
+    for await (const conversation of conversation_objs) {
+        conversatons.push(conversation);
+    }
+    res.json(conversatons);
+});
+
 // start a new conversation; respond with its id
 app.post('/conversation', async (_, res) => {
     const conversation = await getConversation(null);
     if (conversation === null) {
-        res.status(400).send({message: 'Could not retrieve conversation!'});
+        res.status(400).send({
+            message: 'Could not retrieve conversation!'
+        });
         return;
     }
     const conversation_id = await conversation.id_str;
@@ -117,7 +129,9 @@ app.get('/conversation/:id', async (req, res) => {
         }
         res.json(messages);
     } else {
-        res.status(400).send({message: 'Could not retrieve conversation!'});
+        res.status(400).send({
+            message: 'Could not retrieve conversation!'
+        });
     }
 });
 
@@ -130,7 +144,9 @@ app.post('/conversation/:id', async (req, res) => {
     if (conversation) {
         conversation.send('<me>', message_body).then(() => res.json({}));
     } else {
-        res.status(400).send({message: 'Could not retrieve conversation!'});
+        res.status(400).send({
+            message: 'Could not retrieve conversation!'
+        });
     }
 });
 

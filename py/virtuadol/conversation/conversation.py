@@ -76,3 +76,10 @@ def _store_message(id: ConversationId, msg: Message):
         "conversations"
     )
     conversations.update_one({"_id": id}, {"$push": {"messages": msg}}, upsert=True)
+
+
+def find_conversation_ids() -> List[str]:
+    conversations: Collection[_ConversationDocument] = Database.collection(
+        "conversations"
+    )
+    return [str(conversation["_id"]) for conversation in conversations.find({})]

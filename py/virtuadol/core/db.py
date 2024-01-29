@@ -73,10 +73,12 @@ class Database:
                 cls._vector_store = vector_stores.ChromaVectorStore(
                     chroma_collection=chroma_collection
                 )
-            elif connection_string.startswith("mongodb+srv"):
-                if mongo_uri != connection_string:
+            elif mongo_uri == connection_string or connection_string.startswith(
+                "mongodb+srv"
+            ):
+                if not mongo_uri or mongo_uri != connection_string:
                     raise RuntimeError(
-                        "If both MONGO_URI and VECTOR_STORE are mongodb+srv connections, they must match!"
+                        "MONGO_URI and VECTOR_STORE must match if using mongodb+srv!"
                     )
                 cls._vector_store = vector_stores.MongoDBAtlasVectorSearch(
                     mongodb_client=cls.mongo_client,
