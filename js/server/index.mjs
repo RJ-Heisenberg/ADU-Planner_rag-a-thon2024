@@ -25,8 +25,14 @@ dotenv.config({
     path: join(__dirname, "config.env")
 });
 
-const py = await python("py");
-const conversation_lib = py.virtuadol.conversation
+var py = await python("py");
+var conversation_lib = py.virtuadol.conversation;
+
+async function refreshDependencies() {
+    py = await python("py");
+    conversation_lib = py.virtuadol.conversation;
+}
+
 const MessageSubscriber = await conversation_lib.MessageSubscriber
 
 const clients = new Map();
@@ -66,10 +72,29 @@ app.get('/', (req, res) => {
     res.sendFile(join(__dirname, 'index.html'));
 });
 
+async function getConversation(conversation_id, num_retries=1) {
+    if (num_retries < 0) {
+        return null;
+    }
+
+    try {
+        const conversation = await conversation_lib.get_cached(conversation_id);
+        return conversation;
+    } catch (error) {
+        console.debug(error.toString());
+        await refreshDependencies();
+        return getConversation(conversation_id, num_retries - 1);
+    }
+}
+
 // start a new conversation; respond with its id
 app.post('/conversation', async (_, res) => {
-    const conversation = await conversation_lib.get_cached(null);
-    const conversation_id = await conversation.id;
+    const conversation = await getConversation(null);
+    if (conversation === null) {
+        res.status(400).send({message: 'Could not retrieve conversation!'});
+        return;
+    }
+    const conversation_id = await conversation.id_str;
     res.json({
         id: conversation_id
     });
@@ -80,19 +105,19 @@ app.post('/conversation', async (_, res) => {
 app.get('/conversation/:id', async (req, res) => {
     const conversation_id = req.params.id;
     // TODO(jszaday): make this strict
-    const conversation = await conversation_lib.get_cached(conversation_id);
+    const conversation = await getConversation(conversation_id);
     if (conversation) {
         const message_objs = await conversation.messages;
         const messages = []
         for await (const message of message_objs) {
             messages.push({
-                sender: await message.sender,
-                body: await message.body
+                sender: await message['sender'],
+                body: await message['body']
             });
         }
         res.json(messages);
     } else {
-        res.json([]);
+        res.status(400).send({message: 'Could not retrieve conversation!'});
     }
 });
 
@@ -101,13 +126,22 @@ app.post('/conversation/:id', async (req, res) => {
     const conversation_id = req.params.id;
     const message_body = req.body.body;
     // TODO(jszaday): make this strict
-    const conversation = await conversation_lib.get_cached(conversation_id);
-    conversation.send('<me>', message_body).then(() => res.json({}));
+    const conversation = await getConversation(conversation_id);
+    if (conversation) {
+        conversation.send('<me>', message_body).then(() => res.json({}));
+    } else {
+        res.status(400).send({message: 'Could not retrieve conversation!'});
+    }
 });
 
 app.ws('/conversation/:id', async (ws, req) => {
     const conversation_id = req.params.id;
-    const conversation = await conversation_lib.get_cached(conversation_id);
+    const conversation = await getConversation(conversation_id);
+    if (conversation === null) {
+        ws.emit('error', 'Could not retrieve conversation!');
+        return;
+    }
+
     const clientId = uuidv4().toString();
     clients.set(clientId, ws);
 

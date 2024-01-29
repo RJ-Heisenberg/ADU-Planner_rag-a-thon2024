@@ -29,6 +29,7 @@
 </head>
 <body>
   <h1>WebSocket Chat</h1>
+  <p id="statusDisplay">Disconnected</p>
   <div id="messageDisplay"></div>
   <script type="text/javascript">
     const module = {};
@@ -38,18 +39,44 @@
     <button id="sendMessageBtn" onclick="module.sendMessage()">Send</button>
   </div>
   <script type="module">
-    const socket = new WebSocket("ws://localhost:9999/conversation/0");
-    let clientId;
+    var location = window.location.toString().split('?')[0];
+    if (location.at(location.length - 1) !== '/') {
+      location += '/';
+    }
 
-    socket.addEventListener('message', (event) => {
-      const message = JSON.parse(event.data);
-      module.displayMessage(`${message.sender}: ${message.body}`);
-    });
+    const queryString = window.location.search;
+    const queryParams = new URLSearchParams(queryString);
+    const conversation_id = queryParams.get('id');
+    var socket = null;
+
+    module.getMessages = async () => {
+      const uri = `${location}conversation/${conversation_id}`;
+      const response = await fetch(uri);
+      const conversation = await response.json();
+      return conversation;
+    };
+
+    module.startConversation = async () => {
+      const uri = `${location}conversation`;
+      const response = await fetch(uri, {method: "POST"});
+      const conversation = await response.json();
+      return conversation["id"];
+    };
+
+    module.listen = () => {
+      socket = new WebSocket(`ws://localhost:9999/conversation/${conversation_id}`);
+      socket.addEventListener('message', (event) => {
+        const message = JSON.parse(event.data);
+        module.displayMessage(`${message.sender}: ${message.body}`);
+      });
+      const statusDisplay = document.getElementById('statusDisplay');
+      statusDisplay.textContent = 'Connected';
+    }
 
     module.sendMessage = () => {
       const messageInput = document.getElementById('messageInput');
       const message = messageInput.value;
-      if (message.trim() !== '') {
+      if (message.trim() !== '' && socket !== null) {
         socket.send(message);
         messageInput.value = '';
       }
@@ -61,6 +88,22 @@
       messageElement.textContent = message;
       messageDisplay.appendChild(messageElement);
       messageDisplay.scrollTop = messageDisplay.scrollHeight;
+    }
+
+    if (conversation_id === null) {
+      module.startConversation().then(id => {
+        if (id !== undefined) {
+          window.location.href = `${window.location}?id=${id}`;
+        }
+      });
+    } else {
+      module.getMessages().then(messages => {
+        for (const message of messages) {
+          module.displayMessage(`${message.sender}: ${message.body}`);
+        }
+
+        module.listen();
+      })
     }
   </script>
 </body>

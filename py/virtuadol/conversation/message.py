@@ -1,16 +1,12 @@
-from typing import Optional
+from typing import Optional, TypedDict
 
 # TODO(jszaday) : use this
 MessageId = int
 
 
-class Message:
+class Message(TypedDict):
     sender: str
     body: str
-
-    def __init__(self, sender: str, body: str):
-        self.sender = sender
-        self.body = body
 
 
 class MessageSubscriber:

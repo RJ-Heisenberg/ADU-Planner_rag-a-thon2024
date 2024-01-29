@@ -1,7 +1,7 @@
 from . import conversation as conversation_lib
 from . import response_generator
 
-from typing import Dict, Optional
+from typing import Dict, Optional, Union
 
 Conversation = conversation_lib.Conversation
 ConversationId = conversation_lib.ConversationId
@@ -11,20 +11,13 @@ ResponseGenerator = response_generator.ResponseGenerator
 
 class Cache:
     _active: ConversationDict
-    _last_used_id: ConversationId
 
     def __init__(self):
         self._active = {}
-        self._last_used_id = -1
-
-    # TODO(jszaday) : implement this with intelligence
-    def _fresh_id(self) -> ConversationId:
-        self._last_used_id += 1
-        return self._last_used_id
 
     def __getitem__(self, id: Optional[ConversationId]) -> Conversation:
         if id is None:
-            id = self._fresh_id()
+            id = ConversationId()
         elif id in self._active:
             return self._active[id]
         conversation = Conversation(id)
@@ -43,5 +36,7 @@ def get_cache() -> Cache:
     return _cache
 
 
-def get_cached(id: Optional[ConversationId]) -> Conversation:
+def get_cached(id: Optional[Union[str, ConversationId]]) -> Conversation:
+    id = ConversationId(id) if isinstance(id, str) else id
+    print(id)
     return (get_cache())[id]

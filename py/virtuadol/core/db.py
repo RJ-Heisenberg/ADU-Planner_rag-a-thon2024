@@ -1,5 +1,8 @@
 import os
+
 import pymongo
+from bson import objectid
+from pymongo import collection
 
 from llama_index import vector_stores, VectorStoreIndex
 from llama_index import storage as storage_lib
@@ -12,8 +15,9 @@ try:
 except ImportError:
     chromadb = None
 
-
+Collection = collection.Collection
 MongoClient = pymongo.MongoClient
+ObjectId = objectid.ObjectId
 
 _MONGO_DATABASE = os.getenv("MONGO_DATABASE", "primary")
 _EMBEDDINGS_COLLECTION = os.getenv("VECTOR_STORE_COLLECTION", "embeddings")
@@ -28,7 +32,9 @@ class Database:
     @property
     def mongo_client(cls) -> MongoClient:
         if cls._mongo_client is None:
-            cls._mongo_client = MongoClient(os.getenv("MONGO_URI"))
+            mongo_uri = os.getenv("MONGO_URI")
+            assert mongo_uri is not None
+            cls._mongo_client = MongoClient(mongo_uri)
         return cls._mongo_client
 
     @classmethod
@@ -44,6 +50,10 @@ class Database:
             )
 
         return cls._index
+
+    @classmethod
+    def collection(cls, collection_name: str) -> Collection:
+        return cls.mongo_client[_MONGO_DATABASE][collection_name]
 
     @classmethod
     @property
@@ -71,7 +81,7 @@ class Database:
                 cls._vector_store = vector_stores.MongoDBAtlasVectorSearch(
                     mongodb_client=cls.mongo_client,
                     db_name=_MONGO_DATABASE,
-                    collection_name=_EMBEDDINGS_COLLECTION
+                    collection_name=_EMBEDDINGS_COLLECTION,
                 )
             elif connection_string.startswith("postgresql"):
                 cls._vector_store = vector_stores.SupabaseVectorStore(
