@@ -1,0 +1,155 @@
+/* .App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+} */
+
+
+/* Reset some default styles */
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+/* Overall styles for the entire page */
+.App {
+  font-family: Arial, sans-serif;
+}
+
+/* Navigation Bar */
+.navbar {
+  background-color: black;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 40px;
+}
+
+.navbar-item {
+  text-decoration: none;
+  color: #B19FF9;
+  margin-right: 20px;
+  font-size: 18px;
+}
+
+/* Main Content */
+.main-content {
+  display: flex;
+  background-color: black;
+}
+
+/* Left Column */
+.left-column {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to right, black, #341948);
+}
+
+.title {
+  color: #A16AE8;
+  font-size: 64px;
+}
+
+/* Right Column */
+.right-column {
+  flex: 1;
+}
+
+.photo-panel {
+  width: 100%;
+  height: auto;
+}
+
+
+/* CSS for centering and styling the text box */
+.user-input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.user-input input[type="text"] {
+  font-size: 24px; /* Set the font size to 32px */
+  padding: 10px; /* Add padding for better appearance */
+  width: 80%; /* Adjust the width as needed */
+  margin-bottom: 10px; /* Add spacing between input and button */
+  border-radius: 40px;
+}
+
+.user-input button {
+  font-size: 24px; /* Set the font size to 32px */
+  padding: 10px 20px; /* Add padding for better appearance */
+  border-radius: 40px;
+  background: #B19FF9;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background: linear-gradient(to bottom, #540989, black);
+  height: 750px;
+}
+
+.left-column-QA {
+  flex: 1; /* Set the left column to take 1/4 of the width */
+  background-color: #B19FF9; /* Add background color for left column */
+  color: black; /* Text color for left column */
+  /* Add any other styles for the left column */
+}
+
+.right-column-QA {
+  flex: 2; /* Set the right column to take 3/4 of the width */
+  /*background-color: black; /* Add background color for right column */
+  color: white; /* Text color for right column */
+  /* Add any other styles for the right column */
+  align-self: flex-end;
+  padding-bottom: 20px;
+}
+
+
+/* CSS for threads in the left column */
+.thread {
+  border: 1px solid white; /* Add a border for threads */
+  margin: 20px; /* Add margin around each thread */
+  padding: 10px; /* Add padding inside each thread */
+  background: white;
+  border-radius: 20px;
+}

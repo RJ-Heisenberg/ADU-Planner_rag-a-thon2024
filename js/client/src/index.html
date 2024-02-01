@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+      #text-column p {
+        overflow: auto;
+        max-height: 150px; /* Adjust as needed */
+        white-space: normal;
+      }
+      .center-text {
+        text-align: center;
+      } 
+      .navbar-custom .nav-link, .navbar-custom .navbar-brand {
+        font-size: 16px; /* Adjust this value as needed */
+      }
+      .row {
+          display: flex;
+          align-items: stretch; /* This will make the columns of equal height */
+      }
+      #text-column {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around; /* This spreads out the paragraphs */
+      }
+      #section1 {
+        font-family: 'DM Sans', sans-serif;
+        font-size: 72px;
+      }
+      #section2 {
+        font-family: 'DM Sans', sans-serif;
+        font-size: 24px;
+      }
+      #section3 {
+        font-family: 'DM Sans', sans-serif;
+        font-size: 36px;
+      }
+      .custom-container {
+        padding-left: 50px; /* Adjust as needed */
+        padding-right: 50px; /* Adjust as needed */
+      }
+      body {
+        font-family: 'DM Sans', sans-serif;
+      }
+      .maroon_bg {
+        background-color: #800000; /* Replace with your color */
+      }
+      .maroon_text {
+        color: #800000;
+      }
+      .white_text{
+        color: #FFFFFF; /* Your text color */
+      }
+      .beige_text {
+        color: #E3CBBF; /* Your hover color */
+      }
+      .white_text:hover{
+        color: #FFFFFF; /* Your text color */
+      }
+      .beige_text:hover{
+        color: #E3CBBF; /* Your brand hover color */
+      }
+      .navbar-custom .nav-link:hover{
+        color: #E3CBBF; /* Your brand hover color */
+      }
+    </style>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+  </head>
+
+  <body> 
+    <nav class="navbar navbar-expand-lg navbar-light maroon_bg navbar-custom">
+      <div class="container custom-container">
+              <a class="nav-link white_text" href="#">360ATHENA</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+              <ul class="navbar-nav ml-auto">
+
+                <li class="nav-item active">
+                  <a class="nav-link white_text" href="#">Product</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link white_text" href="#">Collaboration</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link white_text" href="#">Enterprise</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link white_text" href="#">Support</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link white_text" href="#">AboutUS</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link white_text" href="#">ForInvestor</a>
+                </li>
+              </ul>
+            </div>
+      </div>
+    </nav>
+
+      <div class="row">
+        <div class="col-md-6 d-flex justify-content-center align-items-center" id="text-column">
+          <div class="row col-md-7 d-flex justify-content-center align-items-center center-text">
+          <div id = "section2">
+          <p class="beige_text">A social media driven, AI assisted human-in-the-loop platform for learning and instructing</p>
+          </div>
+          </div>
+          <div class="row">
+          <div id="section1">
+          <p class="maroon_text" style="font-weight: bold">360Athena</p>
+          </div>
+          </div>
+          <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+        </div>
+        <div class="col-md-6 d-flex justify-content-center align-items-center">
+          <img src="athena.jpg" alt="Description of Image" class="img-fluid">
+        </div>
+      </div>
+    </div>
+
+    <footer class="bg-light text-center text-lg-start">
+      <div class="text-center p-3" style="background-color: #FFFFFF;">
+        © 2023 MySite: 
+        <a class="text-dark" href="https://mysite.com/">mysite.com</a>
+      </div>
+    </footer>
+
+
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  </body>
+</html>
