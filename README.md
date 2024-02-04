@@ -13,7 +13,7 @@ With our GAI-powered ADU planner, a user can get an ADU plan based on their prop
 ![ADU Planner_Pipeling](https://github.com/RJ-Heisenberg/ADU-Planner_rag-a-thon2024/assets/106174661/78a76bfc-3f4c-42fa-a7b0-af60d687774d)
 
 ## How we built it
-1. User inputs address,
+1. User inputs address
     - Pick options, e.g.: budget, layout (1b1b/studio), etc.
     - (Use budget to inform sizing.)
 2. Retrieve data from Google Maps
@@ -32,3 +32,4 @@ With our GAI-powered ADU planner, a user can get an ADU plan based on their prop
     - 2D Render / Plotting
     - 3D Render
 7. App outputs potential placements for ADUs on their lot
+   
