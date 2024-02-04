@@ -145,7 +145,6 @@ body, html {
   
 }
 
-
 /* CSS for threads in the left column */
 .thread {
   border: 1px solid white; /* Add a border for threads */
@@ -165,4 +164,14 @@ body, html {
   flex: 1; /* Equal width for all columns */
   background-color: #f0f0f0; /* Background color for columns */
   padding: 5px; /* Adjust padding as needed */
+}
+
+#up-c {
+  flex: 1;
+  background-color: red;
+}
+
+#down-c {
+  flex: 1;
+  background-color: lightgray;
 }

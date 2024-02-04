@@ -36,42 +36,35 @@ function ThirdPage() {
         return (
 
             <div>
-        
             <NavigationBar></NavigationBar>
-                <div className="three-columns-container">
-                    <div className="column">
-                        <img src={photo2} className="photo-panel"/>
-                        Column 1
+
+                <div className="main-content">
+                    <div className="left-column">
+                        <div className="title">
+                            <div id = "up-c">
+
+                                Content for the lower row of the left column
+                            </div>
+                            <div id = "down-c">
+
+                                Content for the lower row of the left column
+                            </div>
+                        </div>
+                    
                     </div>
 
-                    <div className="column">
-                        <div className="user-input">
+                    <div className="column right-column">
+                    <div className="user-input">
                         <button onClick={toggleImage}>Next</button>
-                            <div className="image-container">
                                 {isImage1Visible ? (
                                 <img src={photo2} alt={photo2} />
                                 ) : (
                                 <img src={photo1} alt={photo1} />
                                 )}
-                            </div>
-                        </div>
                     </div>
-                    <div className="column">
-
-                        <div className="text-stream-dialog">
-                        <div className="text-area">
-                            {textLines[currentIndex]}
-                        </div>
-                        <button onClick={handleNextClick}>Next</button>
-                        </div>
-
-                        Column 3
                     </div>
                 </div>
-
             </div>
-            
         );
-    
  }
  export default ThirdPage;
