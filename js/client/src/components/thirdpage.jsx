@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import NavigationBar from './../navigationbar.js'; // Import your navigation bar component
 import React, { useState, useEffect} from 'react';
+import toast, { Toaster } from "react-hot-toast";
 import './../App.css'; // Create a CSS file for styling
+import io from 'socket.io-client';
 
 function ThirdPage() {
     const photo1 = '14219.png';
@@ -9,25 +11,32 @@ function ThirdPage() {
     const [textLines, setTextLines] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isImage1Visible, setIsImage1Visible] = useState(true);
+    const [layouts, setLayouts] = useState([]);
+
+    const appendLayout = (layout) => {
+        setLayouts(layouts + [layout]);
+    };
+
+    const appendTextLine = (line) => {
+        //toast(line);
+        if (line.includes('Agent') || line.includes('GPT-4V')) {
+            setTextLines(prevLines => [...prevLines, line]);
+        }
+    };
 
     useEffect(() => {
-        // Load text content from a file or API when the component mounts
-        fetch('your-text-file.txt')
-          .then((response) => response.text())
-          .then((data) => {
-            const lines = data.split('\n'); // Split text into lines
-            setTextLines(lines);
-          })
-          .catch((error) => {
-            console.error('Error fetching text:', error);
-          });
-      }, []);
-    
-      const handleNextClick = () => {
-        if (currentIndex < textLines.length - 1) {
-          setCurrentIndex(currentIndex + 1);
-        }
-      };
+        const socket = io('ws://127.0.0.1:5000');
+
+        socket.on('info', appendTextLine);
+
+        socket.on('layout', appendLayout);
+
+        socket.emit('message', {address: '14219 Okanogan Dr, Saratoga, CA 95070'});
+
+        return () => {
+            socket.disconnect();
+          };
+    }, []);
 
     const toggleImage = () => {
       setIsImage1Visible(!isImage1Visible);
@@ -36,18 +45,18 @@ function ThirdPage() {
         return (
 
             <div>
+            <Toaster/>
             <NavigationBar></NavigationBar>
 
                 <div className="main-content">
                     <div className="left-column">
-                        <div className="title">
-                            <div id = "up-c">
-
-                                Content for the lower row of the left column
-                            </div>
-                            <div id = "down-c">
-
-                                Content for the lower row of the left column
+                        <div className="b">
+                            <div class="scrollable-column">
+                            <h1>Server Messages:</h1>
+                            {/* display messages from server*/}
+                            {textLines.map((line, index) => (
+                                <p key={index}>{line}</p>
+                            ))}
                             </div>
                         </div>
                     
@@ -55,7 +64,7 @@ function ThirdPage() {
 
                     <div className="column right-column">
                     <div className="user-input">
-                        <button onClick={toggleImage}>Next</button>
+                        <button onClick={toggleImage}>Output analysis</button>
                                 {isImage1Visible ? (
                                 <img src={photo2} alt={photo2} />
                                 ) : (

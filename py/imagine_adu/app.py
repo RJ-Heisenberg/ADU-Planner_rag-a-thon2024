@@ -9,7 +9,7 @@ from agent.agent import query
 from layout.query import find_layouts
 
 app = Flask(__name__)
-socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 
 @app.route("/")

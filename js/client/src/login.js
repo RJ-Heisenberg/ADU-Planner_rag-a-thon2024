@@ -61,7 +61,6 @@
           
           </div>
   
-  
           <div className="column right-column">
             <img
               src={photo}

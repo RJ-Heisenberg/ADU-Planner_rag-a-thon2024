@@ -1,1 +1,7 @@
 flask_socketio
+python-dotenv
+llama_parse
+geopy
+chromadb
+beautifulsoup4
+requests

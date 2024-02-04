@@ -40,8 +40,9 @@
 
 /* Reset some default styles */
 body, html {
-  margin: 0;
-  padding: 0;
+  margin: 0px;
+  padding: 0px;
+
 }
 
 /* Overall styles for the entire page */
@@ -75,14 +76,20 @@ body, html {
 .left-column {
   flex: 1;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: left;
+  align-items: left;
   background:white;
+  margin-left: 5%;
 }
 
 .title {
   color:navy;
   font-size: 64px;
+}
+
+.b {
+  color:navy;
+  font-size: 24px;
 }
 
 /* Right Column */
@@ -142,7 +149,6 @@ body, html {
   /* Add any other styles for the right column */
   align-self: flex-end;
   padding-bottom: 200px;
-  
 }
 
 /* CSS for threads in the left column */
@@ -162,16 +168,29 @@ body, html {
 
 .column {
   flex: 1; /* Equal width for all columns */
-  background-color: #f0f0f0; /* Background color for columns */
+  background-color: white; /* Background color for columns */
   padding: 5px; /* Adjust padding as needed */
 }
 
 #up-c {
   flex: 1;
-  background-color: red;
+  background-color: white;
+  height: 350px;
+  width: 600px;
+  border-color: navy;
+  border: 2px navy;
 }
 
 #down-c {
   flex: 1;
-  background-color: lightgray;
+  align-self: flex-end;
+  flex-direction: row;
+  height: 350px;
+  background-color: white;
+  padding: 20px 40px;
+}
+
+.scrollable-column {
+  max-height: 90vh; /* Set the maximum height for the column */
+  overflow-y: scroll; /* Enable vertical scrolling when content overflows */
 }
