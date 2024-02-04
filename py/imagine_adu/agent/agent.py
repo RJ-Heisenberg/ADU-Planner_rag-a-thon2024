@@ -42,9 +42,14 @@ def get_agent():
     return agent
 
 
-def query(address):
+def query(address, callback):
     agent = get_agent()
-    response = agent.chat(_QUERY.format(address=address)).response
+    task = agent.create_task(_QUERY.format(address=address))
+    step_output = agent.run_step(task.task_id)
+    while not step_output.is_last:
+        step_output = agent.run_step(task.task_id)
+        callback(f"Agent: {step_output.output.response}")
+    response = agent.finalize_response(task.task_id).response
     try:
         return json.loads(response)
     except:

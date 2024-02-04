@@ -24,9 +24,9 @@ def handle_json(json):
         print(msg)
 
     address = json["address"]
-    callback("asking agent to find local building codes")
-    build_code = query(address)
-    callback(f"agent found: {str(build_code)}")
+    callback("Agent: finding local building codes...")
+    build_code = query(address, callback)
+    callback(f"Internal: found, {str(build_code)}")
     for layout in find_layouts(address, build_code, callback):
         callback(layout, event="layout")
 

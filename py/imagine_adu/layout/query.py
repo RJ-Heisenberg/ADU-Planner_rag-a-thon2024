@@ -37,7 +37,7 @@ def _find_point(region, scale, layout) -> Point:
 
 
 def find_layouts(address, build_code, callback) -> Iterable[Layout]:
-    region = utils.get_unobstructed_region_ft(address)
+    region = utils.get_unobstructed_region_ft(address, callback)
     region = _apply_setbacks(region, build_code)
     for _, layout in get_local_builder_layouts(address, callback):
         if layout["image"] is None:
