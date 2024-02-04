@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import NavigationBar from './../navigationbar.js'; // Import your navigation bar component
 import React, { useState, useEffect} from 'react';
 import toast, { Toaster } from "react-hot-toast";
+import { Tooltip } from 'react-tooltip';
 import './../App.css'; // Create a CSS file for styling
 import io from 'socket.io-client';
 
@@ -43,7 +44,19 @@ function ThirdPage() {
     const getOverlay = () => {
         const layout = layouts[currentIndex];
         const scale  = layout.scale; 
-        return <a href={layout.linkToBuilder} target="_blank" rel="noopener noreferrer"><img src={`Floorplans_cropped/${layout.layoutImage}`} className="overlay-image" style={{transform: `scale(${scale}, ${scale})`}}/></a>;
+        return (
+            <div>
+            <a  href={layout.linkToBuilder}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-tooltip-id="my-tooltip-data-html"
+                data-tooltip-html={`<img src="Floorplans_cropped/${layout.layoutImage}" />`}
+            >
+            <img src={`Floorplans_cropped/${layout.layoutImage}`} className="overlay-image" style={{transform: `scale(${scale}, ${scale})`}}/>
+            </a>
+            <Tooltip id="my-tooltip-data-html" style={{ backgroundColor: "rgb(255, 255, 255)", color: "#FFFFFF" }} />
+            </div>
+        );
     };
 
     const goLeft = () => {
