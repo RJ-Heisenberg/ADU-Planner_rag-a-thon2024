@@ -14,7 +14,7 @@ from . import constants
 
 CrawlerResult = str
 
-_DOCUMENTS_PATH = os.environ['DOCUMENTS_DIR']
+_DOCUMENTS_PATH = os.environ["DOCUMENTS_DIR"]
 _CRAWLER_RESULTS = {}
 _DOCUMENTS_CACHE = {}
 _FILES = {}
@@ -22,12 +22,15 @@ _GEOLOCATOR = Nominatim(user_agent=constants.AGENT_NAME)
 _HARDCODED_CRAWLER_RESULTS = {}
 _HARDCODED_CRAWLER_RESULTS["Saratoga, California"] = _HARDCODED_CRAWLER_RESULTS[
     "Saratoga, CA"
-] = [os.path.join(_DOCUMENTS_PATH, doc) for doc in [
-    "ADU and JADU Handout.pdf",
-    "ADU_FAQ.pdf",
-    "ADU_Handbook.pdf",
-    "SCC-ADU-Guidebook-FINAL-9.8.23.pdf",
-]]
+] = [
+    os.path.join(_DOCUMENTS_PATH, doc)
+    for doc in [
+        "ADU and JADU Handout.pdf",
+        "ADU_FAQ.pdf",
+        "ADU_Handbook.pdf",
+        "SCC-ADU-Guidebook-FINAL-9.8.23.pdf",
+    ]
+]
 _PARSER = LlamaParse(result_type="markdown")
 
 
@@ -80,5 +83,6 @@ def ingest_documents(files: List[str]):
     return query_engine
 
 
+# TODO: can we leverage QueryEngineTool here
 def query_building_codes_digest(adu_building_codes: CrawlerResult, query: str) -> str:
     return ingest_documents(_CRAWLER_RESULTS[adu_building_codes]).query(query).response

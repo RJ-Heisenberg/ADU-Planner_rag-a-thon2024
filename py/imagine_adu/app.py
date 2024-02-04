@@ -1,11 +1,12 @@
 from dotenv import load_dotenv
 
 from flask import Flask, render_template
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, emit
 
 load_dotenv()
 
 from agent.agent import query
+from layout.query import find_layouts
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -18,8 +19,16 @@ def projects():
 
 @socketio.on("message")
 def handle_json(json):
-    response = query(json['address'])
-    print(str(response))
+    def callback(msg, event="info"):
+        emit(event, msg)
+        print(msg)
+
+    address = json["address"]
+    callback("asking agent to find local building codes")
+    build_code = query(address)
+    callback(f"agent found: {str(build_code)}")
+    for layout in find_layouts(address, build_code, callback):
+        callback(layout, event="layout")
 
 
 if __name__ == "__main__":

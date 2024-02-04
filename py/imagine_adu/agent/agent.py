@@ -10,8 +10,7 @@ from .tools import (
 )
 
 
-_QUERY = \
-"""
+_QUERY = """
 Given the address: {address}
 
 Answer ALL questions below using the local building codes:
