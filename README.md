@@ -1,7 +1,7 @@
 # ADU Planner
-Project @ 2024 LlamaIndex RAG Hackathon
-
 Revolutionize the ADU construction process with our GAI-powered ADU planner, a brand new solution to provide effortless design, local compliance, and quick supplier connections in one click.
+
+Project @ 2024 LlamaIndex RAG Hackathon
 
 ## Inspiration
 A lot of people in the US have the need to attach an accessory dwelling unit (ADU) in their backyard.  The Accessory Dwelling Units (ADUs) market in the United States is estimated to be around $127.1 billion. The current process to find and plan for installation of an ADU is very time-consuming. We propose a brand new solution - GAI-powered ADU planner, to provide a personalized and user-friendly solution for generating an ADU plan for users, a solution to revolutionize the current ADU construction and to 5X speed up the process.
