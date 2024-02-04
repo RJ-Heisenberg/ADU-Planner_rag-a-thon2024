@@ -28,12 +28,14 @@
 import {
   BrowserRouter as Router,
   Routes,
+  Switch, 
   Route,
   Navigate,
 } from "react-router-dom";
 // import About component
 import { Link } from 'react-router-dom';
 import SecondPage from "./components/secondpage.jsx";
+import ThirdPage from "./components/thirdpage.jsx";
 import Home from "./login.js"
 import './App.css';
 import NavigationBar from './navigationbar.js';
@@ -44,6 +46,7 @@ function App() {
 //https://www.geeksforgeeks.org/how-to-redirect-to-another-page-in-reactjs/
 return (<>
     <Router>
+        <switch>
         <Routes>
             {/* This route is for home component 
   with exact path "/", in component props 
@@ -60,10 +63,16 @@ return (<>
             />
             <Route
                 exact
+                path="ThirdPage"
+                element={<ThirdPage />}
+            />
+            <Route
+                exact
                 path="About"
                 element={<About />}
             />
         </Routes>
+        </switch>
     </Router>
 </>)
 

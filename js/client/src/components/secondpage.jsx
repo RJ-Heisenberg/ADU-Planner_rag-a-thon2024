@@ -1,206 +1,161 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import NavigationBar from './../navigationbar.js'; // Import your navigation bar component
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
-// import About component
+import './../MapComponent.css'; // Create a CSS file for styling
+//import { GoogleApiWrapper, GoogleMapReact } from 'google-maps-react';
+import React, { Component} from 'react';
+import './../App.css'; // Create a CSS file for styling
+import { Map, GoogleApiWrapper, Marker, Polygon} from 'google-maps-react';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
-// const SecondP'./NavigationBar'; // Assuming you have a NavigationBar component
+import ThirdPage from "./thirdpage.jsx";
+//import axios from 'axios';
+//import { DrawShape } from 'react-draw-shape';
+const apiKey = 'AIzaSyCQEjBzl2MSx3l7rvE6aTOGkJGaQBUzQvI';
 
-var location = window.location.toString().split('?')[0];
-if (location.at(location.length - 1) !== '/') {
-  location += '/';
-}
+class SecondPage extends Component {
 
-const queryString = window.location.search;
-const queryParams = new URLSearchParams(queryString);
-const conversation_id = queryParams.get('id');
-var socket = null;
-
-
-const sendMessage = () => {
-  const messageInput = document.getElementById('messageInput');
-  const message = messageInput.value;
-  if (message.trim() !== '' && socket !== null) {
-    socket.send(message);
-    messageInput.value = '';
+  constructor(props) {
+    super(props);
+    this.state = {
+      address: '', // Store user-entered address
+      coordinates: null, // Store coordinates of the address
+      drawingMode: false,
+      drawingRectangle: null,
+    };
   }
-};
-
-const getMessages = async (conversation_id) => {
-  const uri = `http://localhost:9999/conversation/${conversation_id}`;
-  const response = await fetch(uri);
-  const conversation = await response.json();
-  return conversation;
-};
-
-const getConversationIds = async () => {
-  const uri = `http://localhost:9999/conversation`;
-  const response = await fetch(uri);
-  const conversationIds = await response.json();
-  return conversationIds;
-}
-
-const startConversation = async () => {
-  const uri = `http://localhost:9999/conversation`;
-  const response = await fetch(uri, {method: "POST"});
-  const conversation = await response.json();
-  return conversation["id"];
-};
-
-const listen = () => {
-  socket = new WebSocket(`ws://localhost:9999/conversation/${conversation_id}`);
-  socket.addEventListener('message', (event) => {
-    const message = JSON.parse(event.data);
-    displayMessage(`${message.sender}: ${message.body}`);
-  });
-  // const statusDisplay = document.getElementById('statusDisplay');
-  // statusDisplay.textContent = 'Connected';
-}
-
-const displayMessage = (message) => {
-  const messageDisplay = document.getElementById('messageDisplay');
-  const messageElement = document.createElement('p');
-  messageElement.textContent = message;
-  messageDisplay.appendChild(messageElement);
-  messageDisplay.scrollTop = messageDisplay.scrollHeight;
-}
-
-const SecondPage = () => {
-  const [threads, setThreads] = useState([]);
-  const [messages, setMessages] = useState([]);
-  const [inputText, setInputText] = useState('');
-
-  React.useEffect(() => {
-    //const unsubscribe = navigation.addListener('state', () => {
-      // do something
-      getConversationIds().then(conversationsIds => {
-      setThreads(conversationsIds.map(id => ({id: id,
-      userId: id,
-      content: '<TODO.>'})));
-
-      console.log("hello world");
-      })
-      getMessages(conversation_id).then(messages => {
-            setMessages(messages);
-            listen();
-      })
-    //return unsubscribe;
-  }, []);
 
 
-    // if (sendMessage != null) {
-  // getConversationIds().then(conversationsIds => {
-  //   setThreads(conversationsIds.map(id => {
-  //     return {
-  //       id: id,
-  //       userId: id,
-  //       content: '<TODO.>'
-  //     };
-  //   }))
-  // })
-
+    // Function to start drawing mode
+    startDrawing = () => {
+      this.setState({ drawingMode: true });
+    };
   
+    // Function to end drawing mode
+    stopDrawing = () => {
+      this.setState({ drawingMode: false });
+      if (this.state.drawingRectangle) {
+        this.state.drawingRectangle.setMap(null); // Clear previous rectangle
+      }
+    };
+  
+    // Event listener to handle map click
+    handleMapClick = (mapProps, map, clickEvent) => {
+      if (this.state.drawingMode) {
+        const { google } = this.props;
+        const { LatLngBounds, LatLng } = google.maps;
+        const bounds = new LatLngBounds(
+          new LatLng(clickEvent.latLng.lat(), this.map.map.getBounds().getSouth()),
+          new LatLng(this.map.map.map.getBounds().getNorth(), clickEvent.latLng.lng())
+        );
+  
+        if (this.state.drawingRectangle) {
+          this.state.drawingRectangle.setMap(null); // Clear previous rectangle
+        }
+  
+        // Create a new rectangle
+        const drawingRectangle = new google.maps.Rectangle({
+          map: map,
+          bounds: bounds,
+          editable: true, // Allow the user to resize and move the rectangle
+          draggable: true,
+          strokeColor: 'red', // Set the bounding box color to red
+        });
+  
+        this.setState({ drawingRectangle });
+      }
+    };
 
-  // const handleUserInput = () => {
-  //   if (inputText.trim() !== '') {
-  //     const currentTime = new Date().toLocaleString();
-  //     const newThread = {
-  //       id: threads.length + 1,
-  //       userId: 'User123',
-  //       time: currentTime,
-  //       content: inputText,
-  //     };
-  //     setThreads([...threads, newThread]);
-  //     setInputText(''); // Clear the input field after adding a thread
-  //   }
-  // };
-  // if (sendMessage != null) {
-  // getConversationIds().then(conversationsIds => {
-  //   setThreads(conversationsIds.map(id => {
-  //     return {
-  //       id: id,
-  //       userId: id,
-  //       content: '<TODO.>'
-  //     };
-  //   }))
-  // })
+  handleAddressChange = (event) => {
+    this.setState({ address: event.target.value });
+  };
 
- // if (sendMessage != null) {
- //   getConversationIds().then(conversationsIds => {
-  //    }))
-  //  }
+  // Handle the button click to zoom to the entered address
+  zoomToLocation = async () => {
+    // Use the Google Maps API geocoder to convert the address to coordinates
+    const { google } = this.props;
+    const { address } = this.state;
+    const geocoder = new google.maps.Geocoder();
+
+    geocoder.geocode({ address }, (results, status) => {
+      if (status === 'OK' && results.length > 0) {
+        const location = results[0].geometry.location;
+
+        this.setState({ coordinates: location });
+        const bounds = new google.maps.LatLngBounds();
+        bounds.extend(new google.maps.LatLng(location.lat() - 0.001, location.lng() - 0.001)); // Adjust the buffer as needed
+        bounds.extend(new google.maps.LatLng(location.lat() + 0.001, location.lng() + 0.001)); // Adjust the buffer as needed
+
+        // Set the map's center to the coordinates of the address
+        this.map.map.setCenter(location);
+        this.map.map.setZoom(20);
+
+        this.map.map.controls[google.maps.ControlPosition.TOP_CENTER].push(
+          document.getElementById("info"),
+        );
+      } else {
+        console.error('Geocode was not successful for the following reason:', status);
+     }
+    });
+
+  };
+
+  render() {
+  
+    const pageStyles = {
+      position: 'relative', // Add position relative to the page container
+      width: '100vw', // Full viewport width
+      height: '100vh', // Full viewport height
+    };
+
+    const mapStyles = {
+      position: 'absolute', // Set the map to absolute position
+      //top: 0, // Align to the top of the page
+      left: 0, // Align to the left of the page
+      width: '100%', // Full width
+      height: '100%', // Full height
+      opacity: 0.8, /* Adjust the opacity value as needed */
+      zindex: -1, /* Place the map behind other elements */
+    };
+    const { coordinates, address, bounds } = this.state;
     
-  // if (conversation_id === null) {
-  //   // startConversation ().then(id => {
-  //   //   if (id !== undefined) {
-  //   //     window.location.href = `${window.location}?id=${id}`;
-  //   //   }
-  //   // });
-  // } else {
-  //   getMessages().then(messages => {
-  //     setMessages(messages);
-  //     // listen();
-  //   })
-  // }
-//}
-
-  return (
-    <div>
-      <NavigationBar></NavigationBar>
-      <div className="page-container">
-        <div className="left-column-QA">
-          {/* Display threads in the left column */}
-          {/*<Routes>*/}
-          {threads.map((thread) => (
-
-            <Link to={`?id=${thread.id}`}>
-          
-              <div key={thread.id} className="thread">
-              <div>{thread.userId}</div>    {/*user*/}
-              <div>{thread.content}</div>   {/*content*/}
-            </div>
-            </Link>
-            //} 
-            ///>
-
-            //<Link to={`?id=${thread.id}`}>
-            // <div key={thread.id} className="thread">
-            //   <div>{thread.userId}</div>    {/*user*/}
-            //   <div>{thread.content}</div>   {/*content*/}
-            // </div>
-            // </Link>
-          ))}
-          {/*</Routes>*/}
-        </div>
-
-
-        <div className="right-column-QA">
-          {/* User input section in the right column */}
-          <div className="user-input">
-          <div id="messageDisplay">
-          {/* Display threads in the left column */}
-          {messages.map((message) => (
-             <div>{message.sender}: {message.body}</div> 
-          ))}
-          </div>
+    return (
+      <div>
+        <NavigationBar></NavigationBar>
+        <div className="user-input">
+          {/* User input for zip code */}
           <input
-              type="text"
-              id="messageInput"
-              placeholder="Type your message"
-              //onChange={(e) => setInputText(e.target.value)}
-            />
-            <button id="sendMessageBtn" onClick={sendMessage}>Send</button>
-          </div>
+            type="text"
+            placeholder="Enter a street address"
+            value={address}
+            onChange={this.handleAddressChange}
+          />
+          <button onClick={this.zoomToLocation}>Zoom to Address</button>
+          <Link to="/ThirdPage"><button>Next</button></Link>
+         {/* <button onClick={this.stopDrawing}>Stop Drawing</button> */}
         </div>
+        <div style = {mapStyles}>
+
+            <Map
+                google={this.props.google}
+                zoom={14}
+                style={mapStyles}
+                initialCenter={{
+                  lat: 37.275359, // Latitude of Saratoga, CA
+                  lng: -122.017788, // Longitude of Saratoga, CA
+                }}
+                onClick={this.handleMapClick}
+                center={coordinates} // Center the map on the coordinates
+                bounds={bounds} // Set the bounds for the boundin
+                ref={(map) => (this.map = map)}>
+            </Map>
+
+        </div>
+
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
-export default SecondPage;
 
+export default GoogleApiWrapper({
+  apiKey: 'AIzaSyCQEjBzl2MSx3l7rvE6aTOGkJGaQBUzQvI', // Replace with your Google Maps API key
+})(SecondPage);

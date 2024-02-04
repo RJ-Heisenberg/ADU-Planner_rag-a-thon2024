@@ -29,8 +29,8 @@
   
   function Home() {
     const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
-    const photos = ['youtube2.jpg', 'youtube3.jpg'];
-  
+    const photos = ['frontpage.jpg','frontpage.jpg', 'frontpage.jpg'];
+    const photo = 'hello.jpg';
     useEffect(() => {
       // Automatically switch photos every 3 seconds
       const interval = setInterval(() => {
@@ -56,24 +56,15 @@
   
           <div className="left-column">
             <div className="title">
-              Rally
+              ZIPMAP
             </div>
-            <div className="button-container">
-              <button className="left-button">
-                <span className="icon">Click</span>
-                <div className="button-text">Follower Login</div>
-              </button>
-              <button className="right-button">
-                <span className="icon">Click</span>
-                <div className="button-text">Producer Login</div>
-              </button>
-            </div>
+          
           </div>
   
   
           <div className="column right-column">
             <img
-              src={photos[currentPhotoIndex]}
+              src={photo}
               alt="Random Photo"
               className="photo-panel"
             />

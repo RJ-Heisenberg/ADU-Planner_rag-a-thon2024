@@ -51,8 +51,8 @@ body, html {
 
 /* Navigation Bar */
 .navbar {
-  background-color: black;
-  color: white;
+  background-color: white;
+  color:navy;
   display: flex;
   justify-content: space-between;
   padding: 20px 40px;
@@ -60,7 +60,7 @@ body, html {
 
 .navbar-item {
   text-decoration: none;
-  color: #B19FF9;
+  color: navy;
   margin-right: 20px;
   font-size: 18px;
 }
@@ -68,7 +68,7 @@ body, html {
 /* Main Content */
 .main-content {
   display: flex;
-  background-color: black;
+  background-color: white;
 }
 
 /* Left Column */
@@ -77,11 +77,11 @@ body, html {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(to right, black, #341948);
+  background:white;
 }
 
 .title {
-  color: #A16AE8;
+  color:navy;
   font-size: 64px;
 }
 
@@ -110,38 +110,39 @@ body, html {
   padding: 10px; /* Add padding for better appearance */
   width: 80%; /* Adjust the width as needed */
   margin-bottom: 10px; /* Add spacing between input and button */
+  margin-top: 10px;
   border-radius: 40px;
 }
 
 .user-input button {
-  font-size: 24px; /* Set the font size to 32px */
-  padding: 10px 20px; /* Add padding for better appearance */
+
+  align-items: center;
+  font-size: 16px; /* Set the font size to 32px */
+  padding: 10px 10px; /* Add padding for better appearance */
   border-radius: 40px;
-  background: #B19FF9;
+  background: rgba(255, 255, 255, 0.7);;
 }
 
 .page-container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background: linear-gradient(to bottom, #540989, black);
+  background: white;
   height: 750px;
 }
 
-.left-column-QA {
-  flex: 1; /* Set the left column to take 1/4 of the width */
-  background-color: #B19FF9; /* Add background color for left column */
-  color: black; /* Text color for left column */
-  /* Add any other styles for the left column */
-}
-
 .right-column-QA {
-  flex: 2; /* Set the right column to take 3/4 of the width */
+  flex: 4;
+  align-items: center;
+  text-align: center;
+/*  flex: 2; /* Set the right column to take 3/4 of the width */
   /*background-color: black; /* Add background color for right column */
-  color: white; /* Text color for right column */
+  font-size: 24px;
+  color: navy; /* Text color for right column */
   /* Add any other styles for the right column */
   align-self: flex-end;
-  padding-bottom: 20px;
+  padding-bottom: 200px;
+  
 }
 
 
@@ -152,4 +153,16 @@ body, html {
   padding: 10px; /* Add padding inside each thread */
   background: white;
   border-radius: 20px;
+}
+
+.three-columns-container {
+  display: flex;
+  justify-content: space-between; /* Distribute columns equally */
+  width: 100%; /* Full width of the page */
+}
+
+.column {
+  flex: 1; /* Equal width for all columns */
+  background-color: #f0f0f0; /* Background color for columns */
+  padding: 5px; /* Adjust padding as needed */
 }
