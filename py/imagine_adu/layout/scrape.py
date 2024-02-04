@@ -68,8 +68,8 @@ def get_local_builder_layouts(address, callback):
     for id in range(1901, 1916):
         url = URL_TEMPLATE.format(id=id)
         image = IMAGE_TEMPLATE.format(id=id)
-        image = os.path.join(IMAGE_PATH, image)
-        if not os.path.exists(image):
+        imagePath = os.path.join(IMAGE_PATH, image)
+        if not os.path.exists(imagePath):
             callback(f"missing image for layout: {id} @ {image}")
             continue
         callback(f"scraping: {url}")

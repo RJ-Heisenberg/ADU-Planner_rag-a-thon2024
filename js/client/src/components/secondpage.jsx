@@ -129,7 +129,7 @@ class SecondPage extends Component {
             onChange={this.handleAddressChange}
           />
           <button onClick={this.zoomToLocation}>Zoom to Address</button>
-          <Link to="/ThirdPage"><button>...</button></Link>
+          <Link to="/ThirdPage"><button>confirm your address and start analysis</button></Link>
          {/* <button onClick={this.stopDrawing}>Stop Drawing</button> */}
         </div>
         <div style = {mapStyles}>

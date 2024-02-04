@@ -194,3 +194,16 @@ body, html {
   max-height: 90vh; /* Set the maximum height for the column */
   overflow-y: scroll; /* Enable vertical scrolling when content overflows */
 }
+
+.base-image {
+  width: 100%; /* Adjust based on your needs */
+  display: block;
+}
+
+.overlay-image {
+  position: absolute;
+  top: 0; /* Adjust if you want a different vertical position */
+  right: 0; /* Places the overlay image at the top right corner */
+  width: auto; /* Adjust based on the size of the overlay image */
+  height: auto; /* Adjust based on the size of the overlay image */
+}

@@ -6,19 +6,17 @@ import './../App.css'; // Create a CSS file for styling
 import io from 'socket.io-client';
 
 function ThirdPage() {
-    const photo1 = '14219.png';
-    const photo2 = '14219_mask.png';
+    const photos = ['14219.png', '14219_mask.png', 'adu_bounds.png'];
     const [textLines, setTextLines] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [isImage1Visible, setIsImage1Visible] = useState(true);
+    const [visibleImage, setVisibleImage] = useState(0);
     const [layouts, setLayouts] = useState([]);
 
     const appendLayout = (layout) => {
-        setLayouts(layouts + [layout]);
+        setLayouts(prevLayouts => [...prevLayouts, layout]);
     };
 
     const appendTextLine = (line) => {
-        //toast(line);
         if (line.includes('Agent') || line.includes('GPT-4V')) {
             setTextLines(prevLines => [...prevLines, line]);
         }
@@ -29,7 +27,7 @@ function ThirdPage() {
 
         socket.on('info', appendTextLine);
 
-        socket.on('layout', appendLayout);
+        socket.on('layout', layout => appendLayout(layout));
 
         socket.emit('message', {address: '14219 Okanogan Dr, Saratoga, CA 95070'});
 
@@ -39,7 +37,21 @@ function ThirdPage() {
     }, []);
 
     const toggleImage = () => {
-      setIsImage1Visible(!isImage1Visible);
+      setVisibleImage((visibleImage + 1) % 3);
+    };
+
+    const getOverlay = () => {
+        const layout = layouts[currentIndex];
+        const scale  = layout.scale; 
+        return <a href={layout.linkToBuilder}><img src={`Floorplans_cropped/${layout.layoutImage}`} className="overlay-image" style={{transform: `scale(${scale}, ${scale})`}}/></a>;
+    };
+
+    const goLeft = () => {
+        setCurrentIndex(currentIndex ? currentIndex - 1 : 0);
+    };
+
+    const goRight = () => {
+        setCurrentIndex((currentIndex + 1) % layouts.length);
     };
 
         return (
@@ -52,7 +64,7 @@ function ThirdPage() {
                     <div className="left-column">
                         <div className="b">
                             <div class="scrollable-column">
-                            <h1>Server Messages:</h1>
+                            <h1>Start city code and build analysis ...</h1>
                             {/* display messages from server*/}
                             {textLines.map((line, index) => (
                                 <p key={index}>{line}</p>
@@ -64,12 +76,21 @@ function ThirdPage() {
 
                     <div className="column right-column">
                     <div className="user-input">
+                        <div>
+                        {
+                            (layouts.length > 0 && visibleImage == 2) ? <button onClick={goLeft}>&lt;&lt;</button> : <div></div>
+                        }
                         <button onClick={toggleImage}>Output analysis</button>
-                                {isImage1Visible ? (
-                                <img src={photo2} alt={photo2} />
-                                ) : (
-                                <img src={photo1} alt={photo1} />
-                                )}
+                        {
+                            (layouts.length > 0 && visibleImage == 2) ? <button onClick={goRight}>&gt;&gt;</button> : <div></div>
+                        }
+                        </div>
+                        <div>
+                        <img src={photos[visibleImage]} alt={photos[visibleImage]} className="base-image" />
+                        {
+                            (layouts.length > 0 && visibleImage == 2) ? getOverlay() : <img className="overlay-image" />
+                        }
+                        </div>
                     </div>
                     </div>
                 </div>
