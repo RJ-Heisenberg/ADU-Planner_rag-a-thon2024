@@ -2,12 +2,14 @@
 Revolutionize the ADU construction process with our GAI-powered ADU planner, a brand new solution to provide effortless design, local compliance, and quick supplier connections in one click.
 
 -- Project @ 2024 LlamaIndex RAG Hackathon
+Demo link: https://youtu.be/3PvlpjQKKcQ
 
 ## Inspiration
 A lot of people in the US have the need to attach an accessory dwelling unit (ADU) in their backyard.  The Accessory Dwelling Units (ADUs) market in the United States is estimated to be around $127.1 billion. The current process to find and plan for installation of an ADU is very time-consuming. We propose a brand new solution - GAI-powered ADU planner, to provide a personalized and user-friendly solution for generating an ADU plan for users, a solution to revolutionize the current ADU construction and to 5X speed up the process.
 
 ## What it does
 With our GAI-powered ADU planner, a user can get an ADU plan based on their property layout and their state’s ADU building policy by simply inputting their property address on our website. From the property address input, our website provides nearby ADU suppliers and floorplan options that align with the construction requirements. Users will be able to get a visual rendering according to their option.
+![ADU Planner_Pipeling](https://github.com/RJ-Heisenberg/ADU-Planner_rag-a-thon2024/assets/106174661/78a76bfc-3f4c-42fa-a7b0-af60d687774d)
 
 ## How we built it
 1. User inputs address,
