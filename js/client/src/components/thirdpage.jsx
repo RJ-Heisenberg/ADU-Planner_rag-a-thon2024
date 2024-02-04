@@ -43,7 +43,7 @@ function ThirdPage() {
     const getOverlay = () => {
         const layout = layouts[currentIndex];
         const scale  = layout.scale; 
-        return <a href={layout.linkToBuilder}><img src={`Floorplans_cropped/${layout.layoutImage}`} className="overlay-image" style={{transform: `scale(${scale}, ${scale})`}}/></a>;
+        return <a href={layout.linkToBuilder} target="_blank" rel="noopener noreferrer"><img src={`Floorplans_cropped/${layout.layoutImage}`} className="overlay-image" style={{transform: `scale(${scale}, ${scale})`}}/></a>;
     };
 
     const goLeft = () => {
