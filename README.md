@@ -1,4 +1,4 @@
-## ADU Planner
+# ADU Planner
 Project @ 2024 LlamaIndex RAG Hackathon
 
 ## A brief summary of the project's key features and benefits (1-2 paragraphs)
