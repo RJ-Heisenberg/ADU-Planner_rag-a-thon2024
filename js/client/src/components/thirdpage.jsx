@@ -60,7 +60,7 @@ function ThirdPage() {
     };
 
     const goLeft = () => {
-        setCurrentIndex(currentIndex ? currentIndex - 1 : 0);
+        setCurrentIndex(currentIndex ? currentIndex - 1 : (layouts.length - 1));
     };
 
     const goRight = () => {

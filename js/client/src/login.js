@@ -31,6 +31,7 @@
     const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
     const photos = ['frontpage.jpg','frontpage.jpg', 'frontpage.jpg'];
     const photo = 'hello.jpg';
+    const photoX = "instruction.png"
     useEffect(() => {
       // Automatically switch photos every 3 seconds
       const interval = setInterval(() => {
@@ -53,12 +54,14 @@
         {/* Main Content */}
         <div className="main-content">
   
-  
-          <div className="left-column">
+          <div className="left-column-title">
             <div className="title">
-              ZIPMAP
+              ADU PLANNER
+              <img
+              src={photoX}
+              className="photo-X"
+            />
             </div>
-          
           </div>
   
           <div className="column right-column">

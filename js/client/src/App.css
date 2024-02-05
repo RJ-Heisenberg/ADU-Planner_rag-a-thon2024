@@ -81,6 +81,14 @@ body, html {
   background:white;
   margin-left: 5%;
 }
+.left-column-title {
+  flex: 1;
+  display: flex;
+  background:white;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
 
 .title {
   color:navy;
@@ -100,6 +108,19 @@ body, html {
 .photo-panel {
   width: 100%;
   height: auto;
+}
+
+.photo-X {
+  width: 400px;
+  padding-top: 50px;
+  height: auto;
+}
+
+.photo-Y {
+  width: 1000px;
+  padding-top: 50px;
+  height: auto;
+  align-items: center;
 }
 
 
@@ -196,14 +217,13 @@ body, html {
 }
 
 .base-image {
-  width: 100%; /* Adjust based on your needs */
-  display: block;
+  display: inline-block;
+  position: relative;
 }
 
 .overlay-image {
+  display: inline-block;
   position: absolute;
-  top: 0; /* Adjust if you want a different vertical position */
-  right: 0; /* Places the overlay image at the top right corner */
-  width: auto; /* Adjust based on the size of the overlay image */
-  height: auto; /* Adjust based on the size of the overlay image */
+  top: 0px;
+  right: 0px;
 }
