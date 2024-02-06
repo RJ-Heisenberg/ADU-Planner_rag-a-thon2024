@@ -1,7 +1,7 @@
 # ADU Planner
 Revolutionize the ADU construction process with our GAI-powered ADU planner, a brand new solution to provide effortless design, local compliance, and quick supplier connections in one click.
 
-## -- Winning Project (First Prize) @ 2024 LlamaIndex RAG Hackathon
+## -- Winning Project (1st Place) @ 2024 LlamaIndex RAG Hackathon
 
 -- Demo link: https://youtu.be/3PvlpjQKKcQ
 
