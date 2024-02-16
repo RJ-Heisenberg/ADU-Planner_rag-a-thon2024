@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 
-from flask import Flask, render_template
+from flask import Flask
 from flask_socketio import SocketIO, emit
 
 load_dotenv()
@@ -10,11 +10,6 @@ from layout.query import find_layouts
 
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*")
-
-
-@app.route("/")
-def projects():
-    return render_template("project.html", title="Project")
 
 
 @socketio.on("message")
